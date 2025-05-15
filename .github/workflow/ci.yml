@@ -1,24 +1,69 @@
-name: Java CI
+project:
+  name: Food Ordering System
+  year: 2025
 
-on:
-  push:
-    branches: [ main ]
+  frontend:
+    files:
+      - index.html
+      - style.css
+      - app.js
+    technologies:
+      - HTML
+      - CSS
+      - JavaScript
+    features:
+      - Dynamic menu loading
+      - Order form submission using fetch API
+    pages:
+      - Home
+      - Menu
+      - My Orders
+      - Contact
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  backend:
+    language: Java
+    packages:
+      - projectfood
+    core_files:
+      - FoodOrderingSystemNew.java
+      - MyFoodItem.java
+      - MyMenu.java
+      - MyOrder.java
+    dao_files:
+      - MenuDAO.java
+      - OrderDAO.java
+    test_files:
+      - TestDB.java
+      - TestOrder.java
+    features:
+      - Console-based food ordering
+      - MySQL database integration
+      - Menu and Order management
+    jdbc_config:
+      url: jdbc:mysql://localhost:3306/food_ordering_db
+      username: root
+      password: sohel@636172
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
+  database:
+    name: food_ordering_db
+    tables:
+      - menu_items
+      - orders
+      - order_items
+    used_by:
+      - MenuDAO
+      - OrderDAO
 
-      - name: Build with Maven
-        run: mvn clean install
+  spring_boot:
+    config_file: application.properties
+    settings:
+      datasource:
+        url: jdbc:mysql://localhost:3306/food_ordering_db
+        username: root
+        password: sohel@636172
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate.ddl-auto: update
+        database-platform: org.hibernate.dialect.MySQLDialect
+        show-sql: true
 
-      - name: Run tests
-        run: mvn test
